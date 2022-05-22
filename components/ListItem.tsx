@@ -7,19 +7,22 @@ import colors from "../config/colors";
 
 type  ListItemPropsType = {
     title: string
-    subTitle: string
-    image: ImageSourcePropType
-    onPress: () => void
+    subTitle?: string
+    image?: ImageSourcePropType
+    onPress?: () => void
+    renderRightActions?: any
+    IconComponent?: any
 }
 
-function ListItem({title, subTitle, image, onPress}: ListItemPropsType) {
+function ListItem({title, subTitle, image, onPress, IconComponent}: ListItemPropsType) {
     return (
         <TouchableHighlight underlayColor={colors.light} onPress={onPress}>
             <View style={styles.container}>
-                <Image style={styles.image} source={image}/>
+                {IconComponent}
+                {image && <Image style={styles.image} source={image}/>}
                 <View>
                     <AppText style={styles.title}>{title}</AppText>
-                    <AppText style={styles.subTitle}>{subTitle}</AppText>
+                    {subTitle && <AppText style={styles.subTitle}>{subTitle}</AppText>}
                 </View>
             </View>
         </TouchableHighlight>
