@@ -3,17 +3,17 @@ import Constants from "expo-constants";
 import React from "react";
 
 
-export const Screen = ({children}: any) => {
+export const Screen = ({children, style}: any) => {
     return (
-        <SafeAreaView style={styles.screen}>
-            <View>{children}</View>
+        <SafeAreaView style={[styles.screen, style]}>
+            <View style={[style, {flex: 1}]}>{children}</View>
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
     screen: {
-        // paddingTop: Platform.OS==="android" ? StatusBar.currentHeight : 0
-        paddingTop: Constants.statusBarHeight
+        paddingTop: Constants.statusBarHeight,
+        flex: 1,
     }
 });

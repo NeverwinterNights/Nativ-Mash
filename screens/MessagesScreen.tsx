@@ -13,45 +13,53 @@ export type initialMessageType = {
     image: ImageSourcePropType
 }
 
-const initialMessages: initialMessageType[] = [
-    {
-        id: 1,
-        title: "T1",
-        description: "D1",
-        image: require("../assets/images/mosh.jpg"),
-    },
-    {
-        id: 2,
-        title: "T2",
-        description: "D2",
-        image: require("../assets/images/mosh.jpg"),
-    },
-];
-
 function MessagesScreen() {
-    const [messages, setMessages] = useState(initialMessages);
-
-    const handleDelete = (message:any) => {
-        // Delete the message from messages
-        setMessages(messages.filter((m:any) => m.id !== message.id));
+    const [messages, setMessages] = useState<initialMessageType[]>( [
+        {
+            id: 1,
+            title: "T1",
+            description: "D1",
+            image: require("../assets/images/mosh.jpg"),
+        },
+        {
+            id: 2,
+            title: "T2",
+            description: "D2",
+            image: require("../assets/images/mosh.jpg"),
+        }
+    ]);
+    const [refreshing, setRefreshing] = useState(false);
+    const handleDelete = (message:initialMessageType) => {
+        setMessages(messages.filter((m:initialMessageType) => m.id !== message.id));
     };
 
     return (
         <Screen>
             <FlatList
-                data={initialMessages}
+                data={messages}
                 keyExtractor={(message) => message.id.toString()}
                 renderItem={({item}) =>
                     <ListItem
                         title={item.title}
                         subTitle={item.description}
                         image={item.image}
-                        onPress={() => console.log("Message selected", item)}
+                        onPress={() => console.log("aaa")}
                         renderRightActions={() =>
                             <ListItemDeleteAction
-                                 onPress={() => handleDelete(item)}/>}
+                                onPress={() => handleDelete(item)} />}
                     />}
                 ItemSeparatorComponent={Separator}
+                refreshing={refreshing}
+                 onRefresh={() => {
+                    setMessages([
+                        {
+                            id: 2,
+                            title: "T2",
+                            description: "D2",
+                            image: require("../assets/images/mosh.jpg"),
+                        },
+                    ]);
+                }}
             />
         </Screen>
     )
