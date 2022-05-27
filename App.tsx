@@ -12,12 +12,12 @@ export type CategoryType = {
     value: number
 }
 
-
-const categories:CategoryType[] = [
-    {label: "Furniture", value: 1},
-    {label: "Clothing", value: 2},
-    {label: "Cameras", value: 3},
-]
+//
+// const categories:CategoryType[] = [
+//     {label: "Furniture", value: 1},
+//     {label: "Clothing", value: 2},
+//     {label: "Cameras", value: 3},
+// ]
 
 export default function App() {
     const [category, setCategory] = useState<CategoryType | null>(null);
