@@ -5,7 +5,7 @@ import {MaterialCommunityIcons} from "@expo/vector-icons";
 
 type  IconPropsType = {
     name: keyof typeof MaterialCommunityIcons.glyphMap
-    size: number
+    size?: number
     backgroundColor?: string
     iconColor?: string
 }

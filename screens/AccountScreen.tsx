@@ -8,8 +8,18 @@ import {Icon} from "../components/Icon";
 import {Screen} from "../components/Screen";
 import {Separator} from "../components/Separator";
 import defaultStyles from "../config/styles";
+import {MaterialCommunityIcons} from "@expo/vector-icons";
 
-const menuItems = [
+type menuItemType = {
+    title: string
+    icon: {
+        name: keyof typeof MaterialCommunityIcons.glyphMap
+        backgroundColor: string
+    }
+}
+
+
+const menuItems:menuItemType[] = [
     {
         title: "My Listings",
         icon: {

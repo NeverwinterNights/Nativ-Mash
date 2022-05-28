@@ -15,11 +15,13 @@ type  ListItemPropsType = {
         progressAnimatedValue: Animated.AnimatedInterpolation,
         dragAnimatedValue: Animated.AnimatedInterpolation
     ) => React.ReactNode;
-    IconComponent?: any
+    // IconComponent?: any
+    IconComponent?: React.ReactNode
 }
 
 function ListItem({title, subTitle, image, onPress, IconComponent, renderRightActions}: ListItemPropsType) {
-    return (<Swipeable renderRightActions={renderRightActions}>
+    return (
+        <Swipeable renderRightActions={renderRightActions}>
             <TouchableHighlight underlayColor={defaultStyles.colors.light} onPress={onPress}>
                 <View style={styles.container}>
                     {IconComponent}

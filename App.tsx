@@ -1,29 +1,46 @@
 import {StyleSheet} from 'react-native';
 import {GestureHandlerRootView} from "react-native-gesture-handler";
-import {AppTextInput} from "./components/forms/AppTextInput";
-import {Screen} from "./components/Screen";
-import {AppPicker} from "./components/AppPicker";
 import {useState} from "react";
-import {LoginScreen} from "./screens/LoginScreen";
 import {ListingEditScreen} from "./screens/ListingEditScreen";
+import {AccountScreen} from "./screens/AccountScreen";
 
-export type CategoryType = {
-    label: string
-    value: number
-}
-
-//
-// const categories:CategoryType[] = [
-//     {label: "Furniture", value: 1},
-//     {label: "Clothing", value: 2},
-//     {label: "Cameras", value: 3},
-// ]
 
 export default function App() {
-    const [category, setCategory] = useState<CategoryType | null>(null);
+    const [imageUris, setImageUris] = useState<string[]>([]);
+
+    // const requestPermission = async () => {
+    //     // const result = await Permissions.askAsync(Permissions.MEDIA_LIBRARY, Permissions.LOCATION)  это аналогично след строке
+    //     const result = await ImagePicker.requestMediaLibraryPermissionsAsync()
+    //     if (!result.granted) {
+    //         alert("Yon need to enable permission")
+    //     }
+    // }
+    //
+    // useEffect(() => {
+    //     requestPermission()
+    // }, [])
+    //
+    //
+    // const selectImage = async () => {
+    //     try {
+    //         const result = await ImagePicker.launchImageLibraryAsync()
+    //         if (!result.cancelled) {
+    //             setImageUri(result.uri)
+    //         }
+    //
+    //     } catch (error) {
+    //         console.log("Error reading an image", error)
+    //     }
+    // }
+
+
 
     return (
         <GestureHandlerRootView style={{flex: 1}}>
+            <AccountScreen/>
+            {/*<Screen>*/}
+            {/*    <ImageInputList onAddImage={handleAdd} onRemoveImage={handleRemove} imageUris={imageUris}/>*/}
+            {/*</Screen>*/}
             {/*<Screen>*/}
             {/*    <ListingDetailsScreen/>*/}
             {/*    <AppTextInput placeholder={"Type text"} icon={"text"}/>*/}
@@ -37,9 +54,11 @@ export default function App() {
 
 
             {/*</Screen>*/}
-            <ListingEditScreen/>
+            {/*<ListingEditScreen/>*/}
             {/*<LoginScreen/>*/}
-         </GestureHandlerRootView>
+
+            {/*<ListingEditScreen/>*/}
+        </GestureHandlerRootView>
     )
 
 }
