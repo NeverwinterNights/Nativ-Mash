@@ -1,43 +1,69 @@
 import {StyleSheet} from 'react-native';
 import {GestureHandlerRootView} from "react-native-gesture-handler";
-import {useState} from "react";
-import {ListingEditScreen} from "./screens/ListingEditScreen";
-import {AccountScreen} from "./screens/AccountScreen";
+import {NavigationContainer} from '@react-navigation/native';
+import {AuthNavigation} from "./navigation/AuthNavigator";
+import {myTheme} from "./navigation/NavigationTheme";
+import {AppNavigator} from "./navigation/AppNavigator";
 
+
+// const Stack = createNativeStackNavigator<RootTabParamList>();
+// const useAppNavigation = () => useNavigation<NavigationUseType>()
+//
+// const NameNew = () => {
+//     const navigation = useAppNavigation()
+//
+//
+//     return (
+//       <View>
+//           <Button title={"gff"} onPress={()=> navigation.navigate("Stack1")}/>
+//
+//       </View>
+//   )
+// }
+//
+// const Stack1 = () => {
+//     const navigation = useAppNavigation()
+//
+//
+//     return (
+//         <View>
+//             <Button title={"gff"} onPress={()=> navigation.navigate("Stack2",{id:1})}/>
+//
+//         </View>
+//     )
+// }
+// const Stack2 = ({route}:Stack2Props) => {
+//     const {id} = route.params
+//     const navigation = useAppNavigation()
+//
+//
+//     return (
+//         <View>
+//             <Text>{id}</Text>
+//             <Button title={"gff"} onPress={()=> navigation.navigate("NameNew")}/>
+//
+//         </View>
+//     )
+// }
 
 export default function App() {
-    const [imageUris, setImageUris] = useState<string[]>([]);
 
-    // const requestPermission = async () => {
-    //     // const result = await Permissions.askAsync(Permissions.MEDIA_LIBRARY, Permissions.LOCATION)  это аналогично след строке
-    //     const result = await ImagePicker.requestMediaLibraryPermissionsAsync()
-    //     if (!result.granted) {
-    //         alert("Yon need to enable permission")
-    //     }
+    // const StackNavigator = () => {
+    //     return <Stack.Navigator initialRouteName={"Stack2"}>
+    //         <Stack.Screen name={"Stack1"} component={Stack1}/>
+    //         <Stack.Screen name={"Stack2"} component={Stack2}/>
+    //         <Stack.Screen name={"NameNew"} component={NameNew}/>
+    //
+    //     </Stack.Navigator>
     // }
-    //
-    // useEffect(() => {
-    //     requestPermission()
-    // }, [])
-    //
-    //
-    // const selectImage = async () => {
-    //     try {
-    //         const result = await ImagePicker.launchImageLibraryAsync()
-    //         if (!result.cancelled) {
-    //             setImageUri(result.uri)
-    //         }
-    //
-    //     } catch (error) {
-    //         console.log("Error reading an image", error)
-    //     }
-    // }
-
 
 
     return (
         <GestureHandlerRootView style={{flex: 1}}>
-            <AccountScreen/>
+            <NavigationContainer theme={myTheme}>
+               <AppNavigator/>
+            </NavigationContainer>
+            {/*<AccountScreen/>*/}
             {/*<Screen>*/}
             {/*    <ImageInputList onAddImage={handleAdd} onRemoveImage={handleRemove} imageUris={imageUris}/>*/}
             {/*</Screen>*/}

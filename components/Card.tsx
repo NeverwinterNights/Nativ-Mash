@@ -1,5 +1,5 @@
 import React from "react";
-import {Image, ImageSourcePropType, StyleSheet, View} from "react-native";
+import {Image, ImageSourcePropType, Pressable, StyleSheet, View} from "react-native";
 
 import AppText from "./AppText";
 import defaultStyles from "../config/styles";
@@ -9,11 +9,13 @@ type  CardPropsType = {
     title: string
     subTitle: string
     image: ImageSourcePropType
+    onPress: () => void
 }
 
 
-function Card({title, subTitle, image}: CardPropsType) {
+function Card({title, subTitle, image, onPress}: CardPropsType) {
     return (
+        <Pressable onPress={onPress}>
         <View style={styles.card}>
             <Image style={styles.image} source={image}/>
             <View style={styles.detailsContainer}>
@@ -21,6 +23,7 @@ function Card({title, subTitle, image}: CardPropsType) {
                 <AppText style={styles.subTitle}>{subTitle}</AppText>
             </View>
         </View>
+        </Pressable>
     );
 }
 

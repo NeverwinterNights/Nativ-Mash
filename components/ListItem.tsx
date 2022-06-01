@@ -16,7 +16,7 @@ type  ListItemPropsType = {
         dragAnimatedValue: Animated.AnimatedInterpolation
     ) => React.ReactNode;
     // IconComponent?: any
-    IconComponent?: React.ReactNode
+    IconComponent?: React.ReactNode /// ???????????? JSX.Element
 }
 
 function ListItem({title, subTitle, image, onPress, IconComponent, renderRightActions}: ListItemPropsType) {

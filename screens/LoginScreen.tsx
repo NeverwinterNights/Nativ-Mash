@@ -5,7 +5,7 @@ import {AppFormField} from "../components/forms/AppFormField";
 import {SubmitButton} from "../components/forms/SubmitButton";
 import {AppForm} from "../components/forms/AppForm";
 
-// export type validationSchemaType = Yup.InferType<typeof validationSchema>;
+// export type validationSchemaType = Yup.InferType<typeof validationSchema>;  в апп кидается пропсами validationSchema
 
 
 export const LoginScreen = () => {

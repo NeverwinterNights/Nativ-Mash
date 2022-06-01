@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
 import {Icon} from "./Icon";
 import {CategoryType} from "../screens/ListingEditScreen";
 import AppText from "./AppText";
@@ -12,9 +12,11 @@ export type  CategoryPickerItemPropsType = {
 export const CategoryPickerItem = ({onPress, item}: CategoryPickerItemPropsType) => {
     return (
         <View style={styles.container}>
-        <Icon backgroundColor={item.backgroundColor} name={item.icon} size={80}/>
-        <AppText style={styles.label}>{item.label}</AppText>
-    </View>
+            <Pressable onPress={onPress}>
+                <Icon backgroundColor={item.backgroundColor} name={item.icon} size={80}/>
+                <AppText style={styles.label}>{item.label}</AppText>
+            </Pressable>
+        </View>
     );
 };
 

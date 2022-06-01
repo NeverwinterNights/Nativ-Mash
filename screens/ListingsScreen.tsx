@@ -2,8 +2,12 @@ import {FlatList, ImageSourcePropType, StyleSheet} from 'react-native';
 import {Screen} from "../components/Screen";
 import Card from "../components/Card";
 import colors from "../config/colors";
+import {NavigationFeedNavigatorType} from "../types";
+import {useNavigation} from '@react-navigation/native';
+import {useRef} from "react";
+import {Modalize} from "react-native-modalize";
 
-type  ListingType = {
+export type  ListingType = {
     id: number,
     title: string,
     price: number,
@@ -25,11 +29,19 @@ const listings: ListingType[] = [
     },
 ]
 
+const useAppNavigation = () => useNavigation<NavigationFeedNavigatorType>()
+
+
 export const ListingsScreen = () => {
+
+    const navigation = useAppNavigation()
+
     return (
-        <Screen style={styles.screen} >
-            <FlatList data={listings} keyExtractor={listing=> listing.title} renderItem={({item})=>
-                <Card title={item.title} subTitle={"$" + item.price} image={item.image}/>
+        <Screen style={styles.screen}>
+            <FlatList showsVerticalScrollIndicator={false} data={listings} keyExtractor={listing => listing.title} renderItem={({item}) =>
+                <Card onPress={() => {
+                    navigation.navigate( "ListingDetailsScreen", {item})
+                }} title={item.title} subTitle={"$" + item.price} image={item.image}/>
             }/>
         </Screen>
     );
