@@ -1,5 +1,5 @@
-import React from "react";
-import {StyleSheet} from "react-native";
+import React, {useRef, useState} from "react";
+import {ScrollView, StyleSheet} from "react-native";
 import * as Yup from "yup";
 import {AppForm} from "../components/forms/AppForm";
 import {AppFormField} from "../components/forms/AppFormField";
@@ -10,13 +10,12 @@ import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {FormImagePicker} from "../components/FormImagePicker";
 import {CategoryPickerItem} from "../components/CategoryPickerItem";
 import {useLocation} from "../hooks/useLocation";
-import {ObjectSchema} from "yup";
-import {RequiredObjectSchema} from "yup/es/object";
+import listingsApi from "../api/listings";
+import {UploadScreen} from "./UploadScreen";
+// import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 
-
-
-const validationSchema= Yup.object().shape({
+const validationSchema = Yup.object().shape({
     title: Yup.string().required().min(1).label("Title"),
     price: Yup.number().required().min(1).max(10000).label("Price"),
     description: Yup.string().label("Description"),
@@ -24,7 +23,7 @@ const validationSchema= Yup.object().shape({
     images: Yup.array().min(1, "Please select at least one image")
 });
 
- // export type Test = Yup.InferType<typeof validationSchema>
+// export type Test = Yup.InferType<typeof validationSchema>
 
 
 export type CategoryType = {
@@ -94,8 +93,24 @@ const categories: CategoryType[] = [
 
 export const ListingEditScreen = () => {
     const location = useLocation()
+    const scrollView = useRef<ScrollView>(null);
+    const [uploadVisible, setUploadVisible] = useState<boolean>(false);
+    const [progress, setProgress] = useState<number>(0);
+
+    const handleSubmit = async (listings: any) => {
+        setUploadVisible(true)
+        const result = await listingsApi.addListings({...listings, location},
+            (progress: any) => setProgress(progress)
+        )
+        setUploadVisible(false)
+
+        if (!result.ok) return alert(("Could not save listings"))
+        alert("Success")
+    }
+
     return (
         <Screen style={styles.container}>
+            <UploadScreen progress={progress} visible={uploadVisible}/>
             <AppForm
                 initialValues={{
                     title: "",
@@ -104,34 +119,40 @@ export const ListingEditScreen = () => {
                     category: null,
                     images: []
                 }}
-                onSubmit={(values) => console.log(location)}
+                onSubmit={handleSubmit}
                 validationSchema={validationSchema}
             >
+                {/*<ScrollView ref={scrollView} onContentSizeChange={() => scrollView.current?.scrollToEnd({animated: true})}>*/}
+                <ScrollView>
+
                 <FormImagePicker name={"images"}/>
-                <AppFormField maxLength={255} name="title" placeholder="Title"/>
-                <AppFormField
-                    keyboardType="numeric"
-                    maxLength={8}
-                    name="price"
-                    placeholder="Price"
-                    width={120}
-                />
-                <AppFormPicker
-                    numbersOfColumn={3}
-                    PickerItemComponent={CategoryPickerItem}
-                    items={categories}
-                    name="category"
-                    placeholder="Category"
-                    width={"50%"}/>
-                <AppFormField
-                    maxLength={255}
-                    multiline
-                    name="description"
-                    numberOfLines={3}
-                    placeholder="Description"
-                />
+                    <AppFormField maxLength={255} name="title" placeholder="Title"/>
+                    <AppFormField
+                        keyboardType="numeric"
+                        maxLength={8}
+                        name="price"
+                        placeholder="Price"
+                        width={120}
+                    />
+                    <AppFormPicker
+                        numbersOfColumn={3}
+                        PickerItemComponent={CategoryPickerItem}
+                        items={categories}
+                        name="category"
+                        placeholder="Category"
+                        width={"50%"}/>
+                    <AppFormField
+                        maxLength={255}
+                        multiline
+                        name="description"
+                        numberOfLines={3}
+                        placeholder="Description"
+                    />
+
+                </ScrollView>
                 <SubmitButton title="Post"/>
             </AppForm>
+
         </Screen>
     )
 };

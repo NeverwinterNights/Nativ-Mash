@@ -1,12 +1,13 @@
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {NavigationProp, NavigatorScreenParams} from "@react-navigation/native";
 import {ListingType} from "./screens/ListingsScreen";
+import {AccountNavigator} from "./navigation/AccountNavigator";
 
 
 export type RootTabParamList = {
     Feed: NavigatorScreenParams<FeedNavigatorStackParamList>;
     ListingEditScreen: undefined;
-    AccountScreen: undefined;
+    AccountNavigator: NavigatorScreenParams<AccountNavigatorStackParamList>;
 };
 
 
@@ -22,6 +23,10 @@ export type FeedNavigatorStackParamList = {
     ListingDetailsScreen: { item: ListingType }
 }
 
+export type AccountNavigatorStackParamList = {
+    AccountScreen: undefined
+    MessagesScreen: undefined
+}
 
 export type ListingDetailsScreenProps = NativeStackScreenProps<FeedNavigatorStackParamList, 'ListingDetailsScreen'>;
 
@@ -33,3 +38,5 @@ export type RegisterProps = NativeStackScreenProps<RootStackParamList, 'Register
 export type NavigationUseType = NavigationProp<RootStackParamList>
 
 export type NavigationFeedNavigatorType = NavigationProp<FeedNavigatorStackParamList>
+
+export type NavigationAccountNavigatorType = NavigationProp<AccountNavigatorStackParamList>

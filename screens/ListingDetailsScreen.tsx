@@ -74,7 +74,7 @@ function ListingDetailsScreen({route}: ListingDetailsScreenProps) {
                 // }}
             >
                     <View style={{flex: 1}}>
-                        <Image style={styles.image} source={item.image}/>
+                        <Image style={styles.image} source={{uri:item.images[0].url}}/>
                         <View style={styles.detailsContainer}>
                             <AppText style={styles.title}>{item.title}</AppText>
                             <AppText style={styles.price}>${item.price}</AppText>

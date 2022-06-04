@@ -1,6 +1,6 @@
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {ImageInput} from "./ImageInput";
-import React, {createRef, useRef} from "react";
+import React, {useRef} from "react";
 
 
 type  ImageInputListPropsType = {
@@ -23,7 +23,8 @@ export const ImageInputList = ({imageUris = [], onRemoveImage, onAddImage}: Imag
 
     return (
         <View>
-            <ScrollView ref={scrollView} showsHorizontalScrollIndicator={false}  horizontal onContentSizeChange={()=>  scrollView.current?.scrollToEnd({animated: true})}>
+            <ScrollView ref={scrollView} showsHorizontalScrollIndicator={false} horizontal
+                        onContentSizeChange={() => scrollView.current?.scrollToEnd({animated: true})}>
                 <View style={styles.container}>
                     {imageUris.map((uri: string) =>
                         <View key={uri} style={styles.image}>

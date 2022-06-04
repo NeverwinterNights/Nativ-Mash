@@ -3,21 +3,23 @@ import {Image, ImageSourcePropType, Pressable, StyleSheet, View} from "react-nat
 
 import AppText from "./AppText";
 import defaultStyles from "../config/styles";
+import {ImagesData} from "../screens/ListingsScreen";
 
 
 type  CardPropsType = {
     title: string
     subTitle: string
-    image: ImageSourcePropType
+    // image: ImageSourcePropType
+    imageURL:string,
     onPress: () => void
 }
 
 
-function Card({title, subTitle, image, onPress}: CardPropsType) {
+function Card({title, subTitle, imageURL, onPress}: CardPropsType) {
     return (
         <Pressable onPress={onPress}>
         <View style={styles.card}>
-            <Image style={styles.image} source={image}/>
+            <Image style={styles.image} source={{uri: imageURL}}/>
             <View style={styles.detailsContainer}>
                 <AppText style={styles.title}>{title}</AppText>
                 <AppText style={styles.subTitle}>{subTitle}</AppText>
