@@ -15,13 +15,14 @@ type Props = {
 }
 
 export const AppFormField = ({name, width, ...restProps}: Props & TextInputProps) => {
-    const {setFieldTouched, handleChange, errors, touched} = useFormikContext<FormData>()
+    const {setFieldTouched, setFieldValue, values, errors, touched} = useFormikContext<FormData>()
     return (
         <>
             <AppTextInput
                 width={width}
                 onBlur={() => setFieldTouched(name as string)}
-                onChangeText={handleChange(name)}
+                onChangeText={text => setFieldValue(name as string, text)}
+                value={values[name]}
                 {...restProps}
             />
             {touched[name] && <ErrorMessage error={errors[name]}/>}

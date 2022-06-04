@@ -1,10 +1,11 @@
 import {StyleSheet, TextProps} from 'react-native';
 import {Formik, FormikValues} from 'formik';
 import React from "react";
+import {FormikHelpers} from "formik/dist/types";
 
 type  AppFormPropsType = {
     initialValues: FormikValues
-    onSubmit: (values: FormikValues) => void
+    onSubmit: (values: FormikValues, {resetForm}:FormikHelpers<any>) => void
     validationSchema: any
 }
 

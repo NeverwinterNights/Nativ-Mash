@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useState} from "react";
 import {ScrollView, StyleSheet} from "react-native";
 import * as Yup from "yup";
 import {AppForm} from "../components/forms/AppForm";
@@ -12,6 +12,8 @@ import {CategoryPickerItem} from "../components/CategoryPickerItem";
 import {useLocation} from "../hooks/useLocation";
 import listingsApi from "../api/listings";
 import {UploadScreen} from "./UploadScreen";
+import {FormikValues} from "formik";
+import {FormikHelpers} from "formik/dist/types";
 // import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 
@@ -93,24 +95,26 @@ const categories: CategoryType[] = [
 
 export const ListingEditScreen = () => {
     const location = useLocation()
-    const scrollView = useRef<ScrollView>(null);
     const [uploadVisible, setUploadVisible] = useState<boolean>(false);
     const [progress, setProgress] = useState<number>(0);
 
-    const handleSubmit = async (listings: any) => {
+    const handleSubmit = async (listings: any, {resetForm}:FormikHelpers<any>) => {
+        setProgress(0)
         setUploadVisible(true)
         const result = await listingsApi.addListings({...listings, location},
             (progress: any) => setProgress(progress)
         )
-        setUploadVisible(false)
 
-        if (!result.ok) return alert(("Could not save listings"))
-        alert("Success")
+        if (!result.ok) {
+            setUploadVisible(false)
+            return alert(("Could not save listings"))
+        }
+        resetForm()
     }
 
     return (
         <Screen style={styles.container}>
-            <UploadScreen progress={progress} visible={uploadVisible}/>
+            <UploadScreen onDone={() => setUploadVisible(false)} progress={progress} visible={uploadVisible}/>
             <AppForm
                 initialValues={{
                     title: "",
@@ -125,7 +129,7 @@ export const ListingEditScreen = () => {
                 {/*<ScrollView ref={scrollView} onContentSizeChange={() => scrollView.current?.scrollToEnd({animated: true})}>*/}
                 <ScrollView>
 
-                <FormImagePicker name={"images"}/>
+                    <FormImagePicker name={"images"}/>
                     <AppFormField maxLength={255} name="title" placeholder="Title"/>
                     <AppFormField
                         keyboardType="numeric"
