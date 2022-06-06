@@ -4,7 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {AuthNavigation} from "./navigation/AuthNavigator";
 import {myTheme} from "./navigation/NavigationTheme";
 import {AppNavigator} from "./navigation/AppNavigator";
-
+import NetInfo, {useNetInfo} from '@react-native-community/netinfo';
 
 // const Stack = createNativeStackNavigator<RootTabParamList>();
 // const useAppNavigation = () => useNavigation<NavigationUseType>()
