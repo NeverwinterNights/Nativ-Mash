@@ -36,7 +36,7 @@ const useAppNavigation = () => useNavigation<NavigationFeedNavigatorType>()
 
 
 export const ListingsScreen = () => {
-   const {data, error, loading, request:loadListings} = useApi(listingsApi.getListings)
+    const {data, error, loading, request: loadListings} = useApi(listingsApi.getListings)
 
 
     useEffect(() => {
@@ -46,19 +46,22 @@ export const ListingsScreen = () => {
     const navigation = useAppNavigation()
 
     return (
-        <Screen style={styles.screen}>
-            {error && (<>
-                <AppText>Couldn't get data</AppText>
-                <AppButton title={"Retry"} onPress={loadListings}/>
-            </>)}
+        <>
             <ActivityIndicator visible={loading}/>
-            <FlatList showsVerticalScrollIndicator={false} data={data} keyExtractor={listing => listing.title}
-                      renderItem={({item}) =>
-                          <Card onPress={() => {
-                              navigation.navigate(routes.LISTING_DETAILS, {item})
-                          }} title={item.title} subTitle={"$" + item.price} imageURL={item.images[0].url}/>
-                      }/>
-        </Screen>
+            <Screen style={styles.screen}>
+                {error && (<>
+                    <AppText>Couldn't get data</AppText>
+                    <AppButton title={"Retry"} onPress={loadListings}/>
+                </>)}
+
+                <FlatList showsVerticalScrollIndicator={false} data={data} keyExtractor={listing => listing.title}
+                          renderItem={({item}) =>
+                              <Card onPress={() => {
+                                  navigation.navigate(routes.LISTING_DETAILS, {item})
+                              }} title={item.title} subTitle={"$" + item.price} imageURL={item.images[0].url}/>
+                          }/>
+            </Screen>
+        </>
     );
 };
 

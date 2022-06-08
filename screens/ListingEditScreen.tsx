@@ -102,7 +102,7 @@ export const ListingEditScreen = () => {
         setProgress(0)
         setUploadVisible(true)
         const result = await listingsApi.addListings({...listings, location},
-            (progress: any) => setProgress(progress)
+            (progress: number) => setProgress(progress)
         )
 
         if (!result.ok) {

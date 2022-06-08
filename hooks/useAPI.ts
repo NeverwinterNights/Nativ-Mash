@@ -10,14 +10,29 @@ export const useApi = (apiFunc: Function) => {
 
 
     const request = async (...args: any) => {
-        setLoading(true)
+        setLoading(true);
         const response = await apiFunc(...args);
-        setLoading(false)
+        setLoading(false);
 
-        if (!response.ok) return setError(true)
+        setError(!response.ok);
+        setData(response.data);
+        return response;
+    };
 
-        setError(false)
-        setData(response.data as ListingType[])
-    }
-    return {data, error, loading, request}
-}
+    return { data, error, loading, request };
+};
+
+
+
+//     const request = async (...args: any) => {
+//         setLoading(true)
+//         const response = await apiFunc(...args);
+//         setLoading(false)
+//
+//         if (!response.ok) return setError(true)
+//         setError(false)
+//         setData(response.data as ListingType[])
+//     }
+//     return {data, error, loading, request}
+// }
+

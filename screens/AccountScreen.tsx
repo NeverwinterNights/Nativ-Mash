@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import {FlatList, StyleSheet, View} from "react-native";
 
 
@@ -11,6 +11,10 @@ import defaultStyles from "../config/styles";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {useNavigation} from "@react-navigation/native";
 import {NavigationAccountNavigatorType} from "../types";
+import {AuthContext} from "../auth/context";
+import {UserType} from "./LoginScreen";
+import {deleteToken} from "../auth/storage";
+import {useAuth} from "../auth/useAuth";
 
 type menuItemType = {
     title: string
@@ -44,12 +48,15 @@ const menuItems: menuItemType[] = [
 export const AccountScreen = ({}) => {
     const useAppNavigation = () => useNavigation<NavigationAccountNavigatorType>()
     const navigation = useAppNavigation()
+    const {user, logOut} = useAuth()
+
+
     return (
         <Screen style={styles.screen}>
             <View style={styles.container}>
                 <ListItem
-                    title="Mosh Hamedani"
-                    subTitle="programmingwithmosh@gmail.com"
+                    title={user.name}
+                    subTitle={user.email}
                     image={require("../assets/images/mosh.jpg")}
                 />
             </View>
@@ -75,6 +82,7 @@ export const AccountScreen = ({}) => {
             <ListItem
                 title="Log Out"
                 IconComponent={<Icon name="logout" backgroundColor="#ffe66d"/>}
+                onPress={()=> logOut()}
             />
         </Screen>
     );

@@ -1,9 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from "moment";
+import {ListingType} from "../screens/ListingsScreen";
 
 const expiryInMinutes = 10
 
-export const store = async (key: any, value: any) => {
+export const store = async (key: string, value: ListingType) => {
     try {
         const item = {
             value,
@@ -22,11 +23,9 @@ const isExpired = (item: any) => {
 }
 
 
-export const getData = async (key: any) => {
-console.log("key", key);
+export const getData = async (key: string) => {
     try {
         const value = await AsyncStorage.getItem(key)
-
         if (value) {
             const item = JSON.parse(value)
             if (!item) return null

@@ -6,7 +6,8 @@ type  ErrorMessagePropsType = {
     visible?: boolean
 }
 
-export const ErrorMessage = ({error}: ErrorMessagePropsType) => {
+export const ErrorMessage = ({error, visible}: ErrorMessagePropsType) => {
+    if (!visible || !error) return null;
     return (
         <View>
             {error ? <AppText style={styles.error}>{error}</AppText> : null}

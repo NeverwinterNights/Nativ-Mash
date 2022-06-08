@@ -1,16 +1,16 @@
 import React from "react";
-import {Image, ImageSourcePropType, Pressable, StyleSheet, View} from "react-native";
+import {Image, Pressable, StyleSheet, View} from "react-native";
 
 import AppText from "./AppText";
 import defaultStyles from "../config/styles";
-import {ImagesData} from "../screens/ListingsScreen";
+// import {Image} from "react-native-expo-image-cache"
 
 
 type  CardPropsType = {
     title: string
     subTitle: string
     // image: ImageSourcePropType
-    imageURL:string,
+    imageURL: string,
     onPress: () => void
 }
 
@@ -18,13 +18,13 @@ type  CardPropsType = {
 function Card({title, subTitle, imageURL, onPress}: CardPropsType) {
     return (
         <Pressable onPress={onPress}>
-        <View style={styles.card}>
-            <Image style={styles.image} source={{uri: imageURL}}/>
-            <View style={styles.detailsContainer}>
-                <AppText style={styles.title}>{title}</AppText>
-                <AppText style={styles.subTitle}>{subTitle}</AppText>
+            <View style={styles.card}>
+                <Image style={styles.image} source={{uri: imageURL}}/>
+                <View style={styles.detailsContainer}>
+                    <AppText style={styles.title}>{title}</AppText>
+                    <AppText style={styles.subTitle}>{subTitle}</AppText>
+                </View>
             </View>
-        </View>
         </Pressable>
     );
 }

@@ -1,90 +1,73 @@
 import {StyleSheet} from 'react-native';
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {NavigationContainer} from '@react-navigation/native';
-import {AuthNavigation} from "./navigation/AuthNavigator";
 import {myTheme} from "./navigation/NavigationTheme";
+import {OfflineNotification} from "./components/OfflineNotification";
+import {AuthNavigation} from "./navigation/AuthNavigator";
+import {useCallback, useEffect, useState} from 'react';
+import {AuthContext} from "./auth/context";
+import {UserType} from "./screens/LoginScreen";
 import {AppNavigator} from "./navigation/AppNavigator";
-import NetInfo, {useNetInfo} from '@react-native-community/netinfo';
-
-// const Stack = createNativeStackNavigator<RootTabParamList>();
-// const useAppNavigation = () => useNavigation<NavigationUseType>()
-//
-// const NameNew = () => {
-//     const navigation = useAppNavigation()
-//
-//
-//     return (
-//       <View>
-//           <Button title={"gff"} onPress={()=> navigation.navigate("Stack1")}/>
-//
-//       </View>
-//   )
-// }
-//
-// const Stack1 = () => {
-//     const navigation = useAppNavigation()
-//
-//
-//     return (
-//         <View>
-//             <Button title={"gff"} onPress={()=> navigation.navigate("Stack2",{id:1})}/>
-//
-//         </View>
-//     )
-// }
-// const Stack2 = ({route}:Stack2Props) => {
-//     const {id} = route.params
-//     const navigation = useAppNavigation()
-//
-//
-//     return (
-//         <View>
-//             <Text>{id}</Text>
-//             <Button title={"gff"} onPress={()=> navigation.navigate("NameNew")}/>
-//
-//         </View>
-//     )
-// }
+import {getToken, getUser} from "./auth/storage";
+import jwtDecode from "jwt-decode";
+import * as SplashScreen from 'expo-splash-screen';
 
 export default function App() {
+    const [user, setUser] = useState<UserType>({} as UserType);
+    const [isReady, setIsReady] = useState<boolean>(false);
 
-    // const StackNavigator = () => {
-    //     return <Stack.Navigator initialRouteName={"Stack2"}>
-    //         <Stack.Screen name={"Stack1"} component={Stack1}/>
-    //         <Stack.Screen name={"Stack2"} component={Stack2}/>
-    //         <Stack.Screen name={"NameNew"} component={NameNew}/>
-    //
-    //     </Stack.Navigator>
-    // }
+
+    const restoreToken = async () => {
+        const user = await getUser()
+        if (user) { // @ts-ignore
+            setUser(user)
+        }
+
+    }
+
+    // useEffect(() => {
+    //     restoreToken()
+    // }, [])
+
+
+    useEffect(() => {
+        async function prepare() {
+            try {
+                await SplashScreen.preventAutoHideAsync();
+                restoreToken()
+                await new Promise(resolve => setTimeout(resolve, 2000));
+            } catch (e) {
+                console.warn(e);
+            } finally {
+                setIsReady(true);
+            }
+        }
+        prepare();
+    }, []);
+
+
+    const onLayoutRootView = useCallback(async () => {
+        if (isReady) {
+            await SplashScreen.hideAsync();
+        }
+    }, [isReady]);
+
+    if (!isReady) {
+        return null;
+    }
 
 
     return (
-        <GestureHandlerRootView style={{flex: 1}}>
-            <NavigationContainer theme={myTheme}>
-               <AppNavigator/>
-            </NavigationContainer>
-            {/*<AccountScreen/>*/}
-            {/*<Screen>*/}
-            {/*    <ImageInputList onAddImage={handleAdd} onRemoveImage={handleRemove} imageUris={imageUris}/>*/}
-            {/*</Screen>*/}
-            {/*<Screen>*/}
-            {/*    <ListingDetailsScreen/>*/}
-            {/*    <AppTextInput placeholder={"Type text"} icon={"text"}/>*/}
-
-            {/*    <AppPicker*/}
-            {/*        items={categories}*/}
-            {/*        placeholder={"Category"}*/}
-            {/*        icon={"apps"}*/}
-            {/*        selectedItem={category}*/}
-            {/*        onSelectItem={(item)=> setCategory(item)}/>*/}
-
-
-            {/*</Screen>*/}
-            {/*<ListingEditScreen/>*/}
-            {/*<LoginScreen/>*/}
-
-            {/*<ListingEditScreen/>*/}
+        <GestureHandlerRootView  onLayout={onLayoutRootView} style={{flex: 1}}>
+            <AuthContext.Provider value={{user, setUser}}>
+                <OfflineNotification/>
+                <NavigationContainer theme={myTheme}>
+                    {/*<AppNavigator/>*/}
+                    {Object.keys(user).length == 0 ? <AuthNavigation/> : <AppNavigator/>}
+                </NavigationContainer>
+            </AuthContext.Provider>
         </GestureHandlerRootView>
+
     )
 
 }
